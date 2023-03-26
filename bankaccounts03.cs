@@ -15,7 +15,7 @@ using System.Text;
 namespace MySuperBank
   {
   
-class Program
+class bankaccounts03
 	{ //class start
     
     static void Main (string[] args)
