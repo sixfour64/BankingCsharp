@@ -8,11 +8,13 @@ all bankings code examples are on MS's github @   https://github.com/dotnet/docs
 each time at KR:
 get .Net SDK 7.0 installer  https://dotnet.microsoft.com/en-us/download/dotnet/sdk-for-vs-code?utm_source=vs-code&amp;utm_medium=referral&amp;utm_campaign=sdk-install
 install the MS plug in 'ms-dotnettools.csharp' to Visual Studio code 
+
+dotnet run --project "/home/runner/CSharpReplitTemplate/BankAccount.csproj"
 */
 
-using System;
-using System.Collections.Generic;  // used for System.Text.StringBuilder  in GetAccountHistory()
-using System.Text;
+global using System;
+global using System.Collections.Generic;  // used for System.Text.StringBuilder  in GetAccountHistory()
+global using System.Text;
 
 namespace Banking
 {
@@ -22,6 +24,7 @@ class Program
     
     static void Main (string[] args)
       {//start Method
+Console.WriteLine ($".{Environment.NewLine}Hello World - BankAccount.cs\n."); 
         var account = new BankAccount("Lee money", 4444);
         Console.WriteLine($"Account# {account.Number} was created for {account.Owner} with $ {account.Balance}\n.");
                 
@@ -83,6 +86,8 @@ savings.MakeDeposit(1250, System.DateTime.Now, "Add more savings");
 savings.MakeWithdrawal(250, System.DateTime.Now, "Needed to pay monthly bills");
 savings.PerformMonthEndTransactions();
 Console.WriteLine(savings.GetAccountHistory());
+
+    Console.WriteLine($".{Environment.NewLine}-end of BankAccount.cs-{Environment.NewLine}");
         
     }  // end Main method
 }  // end class BankAccountTX
@@ -200,5 +205,7 @@ public class Transaction
         this.Date = date;
         this.Notes = note;
   	  }
+
+
 	} // end class
   } // end namespace
