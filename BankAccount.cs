@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;  // used for System.Text.StringBuilder  in GetAccountHistory()
 using System.Text;
 
+namespace Banking
+{
 
 class Program
 	{ // start class 
@@ -199,3 +201,4 @@ public class Transaction
         this.Notes = note;
   	  }
 	} // end class
+  } // end namespace

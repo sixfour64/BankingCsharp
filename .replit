@@ -1,5 +1,5 @@
 run = "dotnet run"
-entrypoint = "BankAccount.cs"
+entrypoint = "Banking.Program.cs"
 
 hidden = ["bin", "obj"]
 

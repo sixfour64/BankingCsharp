@@ -11,6 +11,9 @@ using System.Text;
 
 using System;
 
+namespace Banking
+{
+
 public class InterestEarningAccount : BankAccount
 { // start class InterestEarningAccount
 
@@ -30,3 +33,4 @@ public override void PerformMonthEndTransactions()
     }
 
 }// end class InterestEarningAccount
+} // end namespace

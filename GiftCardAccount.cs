@@ -6,6 +6,9 @@ A gift card account  Can be refilled with a specified amount once each month, on
 
 using System;
 
+namespace Banking
+{
+
 public class GiftCardAccount : BankAccount 
 {  // start Class GiftCardAccount
 
@@ -28,3 +31,4 @@ public override void PerformMonthEndTransactions()
 
 
 } // end Class GiftCardAccount
+} // end namespace

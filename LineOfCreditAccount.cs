@@ -9,7 +9,9 @@ A line of credit accnt:
 */
 
 using System;
-    
+
+namespace Banking
+{
 public class LineOfCreditAccount : BankAccount 
 {
 
@@ -29,3 +31,4 @@ public override void PerformMonthEndTransactions()
   } // end method
   
  } // end class
+} // end namespace
