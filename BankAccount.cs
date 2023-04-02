@@ -89,7 +89,7 @@ savings.PerformMonthEndTransactions();
 Console.WriteLine(savings.GetAccountHistory());
 
 
-var lineOfCredit = new LineOfCreditAccount("line of credit", 55550, 2000);
+var lineOfCredit = new LineOfCreditAccount("line of credit", 1000, 2000);
 // How much is too much to borrow?
 lineOfCredit.MakeWithdrawal(1000m, DateTime.Now, "Take out monthly advance");
 lineOfCredit.MakeDeposit(50m, DateTime.Now, "Pay back small amount");
@@ -161,15 +161,16 @@ public void MakeWithdrawal(decimal amount, DateTime date, string note)
 { //start Method
     if (amount <= 0)
     {
-        throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrawal must be positive");
+    throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrawal must be positive");
     }
-    Transaction? overdraftTransaction = CheckWithdrawalLimit(Balance - amount < _minimumBalance);
+    Transaction? overdraftTransaction = CheckWithdrawalLimit(Balance - amount < _minimumBalance);  // The ? indicates that the method may return null
     Transaction? withdrawal = new(-amount, date, note);
-    _allTransactions.Add(withdrawal);
+    allTransactions.Add(withdrawal);
     if (overdraftTransaction != null)
-        _allTransactions.Add(overdraftTransaction);
+        allTransactions.Add(overdraftTransaction);
 } // end Method
 
+// protected, which means that it can be called only from derived classes. 
 protected virtual Transaction? CheckWithdrawalLimit(bool isOverdrawn)
 { // start Method
     if (isOverdrawn)
@@ -188,17 +189,17 @@ public string GetAccountHistory()
     var report = new System.Text.StringBuilder();
 
     decimal balance = 0;
-    report.AppendLine($"\nDate\t\tAmount\tBalance\tNote\t\t\t {Owner}'s tx history");
+    report.AppendLine($"\nDate\t\tAmount\t\tBalance\tNote\t {Owner}'s tx history");
     foreach (var item in allTransactions)
   	  {
         balance += item.Amount;
-        report.AppendLine($"{item.Date.ToShortDateString()}\t{item.Amount}\t{balance}\t{item.Notes}");
+        report.AppendLine($"{item.Date.ToShortDateString()}\t{item.Amount}\t\t{balance}\t\t{item.Notes}");
 }
     return report.ToString();
 	} // end Method
 
 
-//  virtual method for 03.02.cs,  03.03.cs,  03.04.cs 
+//  virtual method for the three accnt facilites
 public virtual void PerformMonthEndTransactions() { }  
 
 } // end class BankAccount
