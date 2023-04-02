@@ -24,9 +24,10 @@ class Program
     
     static void Main (string[] args)
       {//start Method
-Console.WriteLine ($".{Environment.NewLine}Hello World - BankAccount.cs\n."); 
-        var account = new BankAccount("Lee money", 4444);
-        Console.WriteLine($"Account# {account.Number} was created for {account.Owner} with $ {account.Balance}\n.");
+Console.WriteLine ($".{Environment.NewLine}Hello World - BankAccount.cs{Environment.NewLine}."); 
+        
+var account = new BankAccount("Lee money", 456789);
+        Console.WriteLine($"Account# {account.Number} was created for \"{account.Owner}\" with $ {account.Balance}\n.");
                 
         // some sample tx's:
 		account.MakeWithdrawal(500, DateTime.Now, "Rent payment");
@@ -87,7 +88,18 @@ savings.MakeWithdrawal(250, System.DateTime.Now, "Needed to pay monthly bills");
 savings.PerformMonthEndTransactions();
 Console.WriteLine(savings.GetAccountHistory());
 
-    Console.WriteLine($".{Environment.NewLine}-end of BankAccount.cs-{Environment.NewLine}");
+
+var lineOfCredit = new LineOfCreditAccount("line of credit", 55550, 2000);
+// How much is too much to borrow?
+lineOfCredit.MakeWithdrawal(1000m, DateTime.Now, "Take out monthly advance");
+lineOfCredit.MakeDeposit(50m, DateTime.Now, "Pay back small amount");
+lineOfCredit.MakeWithdrawal(5000m, DateTime.Now, "Emergency funds for repairs");
+lineOfCredit.MakeDeposit(150m, DateTime.Now, "Partial restoration on repairs");
+lineOfCredit.PerformMonthEndTransactions();
+Console.WriteLine(lineOfCredit.GetAccountHistory());
+
+        
+Console.WriteLine($".{Environment.NewLine}--end of BankAccount.cs--{Environment.NewLine}");
         
     }  // end Main method
 }  // end class BankAccountTX
@@ -114,22 +126,12 @@ public class BankAccount
     
     private List<Transaction> allTransactions = new List<Transaction>(); // gathers up all txs into a List
 
-/* original   BankAccount constructor  
-public BankAccount(string name, decimal initialBalance)
-	{  //start Method
-		{
-    this.Owner = name;
-    this.Number = accountNumberSeed.ToString();
-    accountNumberSeed++;
-    MakeDeposit(initialBalance, System.DateTime.Now, "Initial balance");
-		}
-    }// end Method
-*/
-
-  // new BankAccount constructor  
+    
+// BankAccount constructors:
 private readonly decimal _minimumBalance;
 
 public BankAccount(string name, decimal initialBalance) : this(name, initialBalance, 0) { }
+// The : this() expression calls the below constructor, the one with three parameters.
 
 public BankAccount(string name, decimal initialBalance, decimal minimumBalance)
 {
@@ -141,8 +143,7 @@ public BankAccount(string name, decimal initialBalance, decimal minimumBalance)
     if (initialBalance > 0)
         MakeDeposit(initialBalance, DateTime.Now, "Initial balance");
 }
-
-    
+ 
    
 public void MakeDeposit(decimal amount, DateTime date, string note)
 	{//start Method
@@ -155,21 +156,31 @@ public void MakeDeposit(decimal amount, DateTime date, string note)
 	} // end Method
 
 
-// public void MakeWithdrawal(decimal amount, DateTime date, string note)
+// MakeWithdrawal method, updated for LineOfCreditAccount
 public void MakeWithdrawal(decimal amount, DateTime date, string note)
-    
-	{ //start Method
+{ //start Method
     if (amount <= 0)
-  	  {
+    {
         throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrawal must be positive");
-  	  }
-    if (Balance - amount < 0)
-   	 {
-        throw new InvalidOperationException("Insufficient funds for this withdrawal");
- 	   }
-    var withdrawal = new Transaction(-amount, date, note);
-    allTransactions.Add(withdrawal);
-	} // end Method
+    }
+    Transaction? overdraftTransaction = CheckWithdrawalLimit(Balance - amount < _minimumBalance);
+    Transaction? withdrawal = new(-amount, date, note);
+    _allTransactions.Add(withdrawal);
+    if (overdraftTransaction != null)
+        _allTransactions.Add(overdraftTransaction);
+} // end Method
+
+protected virtual Transaction? CheckWithdrawalLimit(bool isOverdrawn)
+{ // start Method
+    if (isOverdrawn)
+    {
+        throw new InvalidOperationException("Not sufficient funds for this withdrawal");
+    }
+    else
+    {
+        return default;
+    }
+} // end Method
   
   
 public string GetAccountHistory()

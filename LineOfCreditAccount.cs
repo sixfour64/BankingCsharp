@@ -1,4 +1,4 @@
-/*
+/*  ineOfCreditAccount.cs
 refers to Object-Oriented programming (C#)  docs https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/tutorials/oop
 
 A line of credit accnt:
@@ -15,9 +15,11 @@ namespace Banking
 public class LineOfCreditAccount : BankAccount 
 {
 
-public LineOfCreditAccount(string name, decimal initialBalance) : base(name, initialBalance)  // generates from base Class's constructor:  public BankAccount(string name, decimal initialBalance)
-  {
-  }
+
+// generates from base Class's constructor:  public BankAccount(string name, decimal initialBalance)
+public LineOfCreditAccount(string name, decimal initialBalance, decimal creditLimit) : base(name, initialBalance, -creditLimit)
+{
+}
 
 public override void PerformMonthEndTransactions()
   {
